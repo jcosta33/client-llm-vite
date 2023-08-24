@@ -1,4 +1,4 @@
-import { AppConfig, ChatOptions } from "@mlc-ai/web-llm";
+import { AppConfig } from "@mlc-ai/web-llm";
 
 export const appConfig: AppConfig = {
   model_list: [
@@ -15,7 +15,7 @@ export const appConfig: AppConfig = {
     {
       model_url:
         "https://huggingface.co/mlc-ai/mlc-chat-Llama-2-7b-chat-hf-q4f16_1/resolve/main/",
-      local_id: "Llama-2-7b-chat-hf-q4f16_1",
+      local_id: "Llama-2-7b-chaChatOptionst-hf-q4f16_1",
       required_features: ["shader-f16"],
     },
     {

@@ -1,5 +1,3 @@
-import { ThemeOptions } from "@mui/material";
-
 export const programmingLanguages = [
   { label: "Python", name: "python" },
   { label: "JavaScript", name: "javascript" },
