@@ -1,0 +1,74 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+pre {
+  margin: 0 0 16px;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+a.active {
+  text-decoration: underline;
+}
+
+ol,
+ul {
+  margin: 8px 16px 0 16px;
+  padding-left: 4px;
+  font-size: 14px;
+}
+
+li {
+  margin-bottom: 4px;
+}
+
+p {
+  margin-top: 8px;
+}
+
+code {
+  background: #212121;
+  font-size: 12px;
+  &:only-child {
+    margin: 0;
+  }
+}
+
+.MuiFormHelperText-root {
+  margin-left: 0;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+/* scrollbar track */
+::-webkit-scrollbar-track {
+  box-shadow: none;
+  border-radius: 0px;
+}
+
+/* scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
