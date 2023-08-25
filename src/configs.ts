@@ -53,6 +53,12 @@ export const appConfig: AppConfig = {
     },
     {
       model_url:
+        "https://huggingface.co/mlc-ai/mlc-chat-WizardCoder-15B-V1.0-q4f16_1/resolve/main/",
+      local_id: "WizardCoder-15B-V1.0-q4f16_1",
+      required_features: ["shader-f16"],
+    },
+    {
+      model_url:
         "https://huggingface.co/mlc-ai/mlc-chat-WizardMath-7B-V1.0-q4f32_1/resolve/main/",
       local_id: "WizardMath-7B-V1.0-q4f16_1",
       required_features: ["shader-f16"],
@@ -82,6 +88,8 @@ export const appConfig: AppConfig = {
     "RedPajama-INCITE-Chat-3B-v1-q4f16_0":
       "https://raw.githubusercontent.com/mlc-ai/binary-mlc-llm-libs/main/RedPajama-INCITE-Chat-3B-v1-q4f16_0-webgpu-v1.wasm",
     "WizardCoder-15B-V1.0-q4f32_1":
+      "https://raw.githubusercontent.com/mlc-ai/binary-mlc-llm-libs/main/WizardCoder-15B-V1.0-q4f32_1-webgpu.wasm",
+    "WizardCoder-15B-V1.0-q4f16_1":
       "https://raw.githubusercontent.com/mlc-ai/binary-mlc-llm-libs/main/WizardCoder-15B-V1.0-q4f16_1-webgpu.wasm",
     "WizardMath-7B-V1.0-q4f16_1":
       "https://raw.githubusercontent.com/mlc-ai/binary-mlc-llm-libs/main/WizardMath-7B-V1.0-q4f16_1-webgpu.wasm",

@@ -108,11 +108,10 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
       setOptionsUpdated(false);
       setChatLoading(false);
     } catch (err: unknown) {
-      await chat.unload();
       setLog("Init error, " + (err?.toString() ?? ""));
       setChatLoading(false);
     }
-  }, [optionsUpdated, model, options, system]);
+  }, [model, options, system]);
 
   /**
    * Handles sending messages via OpenAI.
@@ -138,19 +137,15 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
       response += part.choices[0]?.delta?.content || "";
       setMessages([{ value: response, model: model }, ...oldMessages]);
     }
-  }, [prompt, optionsUpdated]);
-
-  /**
-   * Sends messages using the WebLLM method.
-   */
-  const handleWebLLMMessage = useCallback(async () => {
-    if (!optionsUpdated) {
-      await sendWebLLMMessage();
-    } else {
-      await reload();
-      await sendWebLLMMessage();
-    }
-  }, [prompt, optionsUpdated]);
+  }, [
+    messages,
+    model,
+    system,
+    prompt,
+    options.temperature,
+    options.top_p,
+    options.repetition_penalty,
+  ]);
 
   const sendWebLLMMessage = useCallback(async () => {
     const oldMessages = messages;
@@ -163,7 +158,19 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
       setMessages([{ value: response, model: model }, ...oldMessages]);
       setLog(await chat.runtimeStatsText());
     });
-  }, [prompt, optionsUpdated, chatLoading]);
+  }, [messages, prompt, model]);
+
+  /**
+   * Sends messages using the WebLLM method.
+   */
+  const handleWebLLMMessage = useCallback(async () => {
+    if (!optionsUpdated) {
+      await sendWebLLMMessage();
+    } else {
+      await reload();
+      await sendWebLLMMessage();
+    }
+  }, [optionsUpdated, sendWebLLMMessage, reload]);
 
   /**
    * Determines the source and sends the message accordingly.
@@ -176,7 +183,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
       await handleWebLLMMessage();
     }
     setChatLoading(false);
-  }, [prompt, optionsUpdated]);
+  }, [source, handleOpenAiMessage, handleWebLLMMessage]);
 
   const sendCommand = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -186,7 +193,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
       //   setLog(await chat.runtimeStatsText());
       // });
     },
-    [chat, messages, model]
+    []
   );
 
   // Provider value

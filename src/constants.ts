@@ -53,6 +53,10 @@ export const webLLMModels = [
     name: "WizardCoder-15B-V1.0-q4f32_1",
   },
   {
+    label: "Wizard Coder 15B f16",
+    name: "WizardCoder-15B-V1.0-q4f16_1",
+  },
+  {
     label: "Wizard Math 7B f16",
     name: "WizardMath-7B-V1.0-q4f16_1",
   },
