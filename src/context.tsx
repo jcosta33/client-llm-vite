@@ -46,7 +46,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [code, setCode] = useState("");
   const [context, setContext] = useState("");
   const [language, setLanguage] = useState("");
-  const [model, setModel] = useState("Llama-2-7b-chat-hf-q4f32_1");
+  const [model, setModel] = useState("Llama-2-13b-chat-hf-q4f32_1");
   const [options, setOptions] = useState<ChatOptions>(chatOpts);
   const [optionsUpdated, setOptionsUpdated] = useState(true);
   const [chatLoading, setChatLoading] = useState(false);
@@ -66,14 +66,6 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
     },
     []
   );
-
-  const reset = useCallback(async () => {
-    setMessages([]);
-    chat.resetChat();
-    setOptions(chatOpts);
-    setOptionsUpdated(true);
-    reload();
-  }, []);
 
   const stop = useCallback(() => chat.interruptGenerate(), []);
 
@@ -112,6 +104,14 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
       setChatLoading(false);
     }
   }, [model, options, system]);
+
+  const reset = useCallback(async () => {
+    setMessages([]);
+    chat.resetChat();
+    setOptions(chatOpts);
+    setOptionsUpdated(true);
+    reload();
+  }, [reload]);
 
   /**
    * Handles sending messages via OpenAI.

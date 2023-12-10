@@ -20,30 +20,30 @@ export const webLLMModels = [
     label: "Llama 2 7b f32",
     name: "Llama-2-7b-chat-hf-q4f32_1",
   },
-  {
-    label: "Llama 2 7b f16",
-    name: "Llama-2-7b-chat-hf-q4f16_1",
-  },
+  // {
+  //   label: "Llama 2 7b f16",
+  //   name: "Llama-2-7b-chat-hf-q4f16_1",
+  // },
   {
     label: "Llama 2 13b f32",
     name: "Llama-2-13b-chat-hf-q4f32_1",
   },
-  {
-    label: "Llama 2 13b f16",
-    name: "Llama-2-13b-chat-hf-q4f16_1",
-  },
-  {
-    label: "Llama 2 70b f16",
-    name: "Llama-2-70b-chat-hf-q4f16_1",
-  },
+  // {
+  //   label: "Llama 2 13b f16",
+  //   name: "Llama-2-13b-chat-hf-q4f16_1",
+  // },
+  // {
+  //   label: "Llama 2 70b f16",
+  //   name: "Llama-2-70b-chat-hf-q4f16_1",
+  // },
   {
     label: "RedPajama 3B f32",
     name: "RedPajama-INCITE-Chat-3B-v1-q4f32_0",
   },
-  {
-    label: "RedPajama 3B f16",
-    name: "RedPajama-INCITE-Chat-3B-v1-q4f16_0",
-  },
+  // {
+  //   label: "RedPajama 3B f16",
+  //   name: "RedPajama-INCITE-Chat-3B-v1-q4f16_0",
+  // },
   {
     label: "Vicuna 7B f32",
     name: "vicuna-v1-7b-q4f32_0",
@@ -52,17 +52,21 @@ export const webLLMModels = [
     label: "Wizard Coder 15B f32",
     name: "WizardCoder-15B-V1.0-q4f32_1",
   },
+  // {
+  //   label: "Wizard Coder 15B f16",
+  //   name: "WizardCoder-15B-V1.0-q4f16_1",
+  // },
+  // {
+  //   label: "Wizard Math 7B f16",
+  //   name: "WizardMath-7B-V1.0-q4f16_1",
+  // },
   {
-    label: "Wizard Coder 15B f16",
-    name: "WizardCoder-15B-V1.0-q4f16_1",
+    label: "Wizard Math 13B f32",
+    name: "WizardMath-13B-V1.0-q4f32_1",
   },
   {
-    label: "Wizard Math 7B f16",
-    name: "WizardMath-7B-V1.0-q4f16_1",
-  },
-  {
-    label: "Wizard Math 13B f16",
-    name: "WizardMath-13B-V1.0-q4f16_1",
+    label: "Mistral 7B f32",
+    name: "Mistral-7B-Instruct-v0.1-q4f32_1",
   },
 ];
 

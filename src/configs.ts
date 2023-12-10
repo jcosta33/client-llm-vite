@@ -66,8 +66,12 @@ export const appConfig: AppConfig = {
     {
       model_url:
         "https://huggingface.co/mlc-ai/mlc-chat-WizardMath-13B-V1.0-q4f32_1/resolve/main/",
-      local_id: "WizardMath-13B-V1.0-q4f16_1",
-      required_features: ["shader-f16"],
+      local_id: "WizardMath-13B-V1.0-q4f32_1",
+    },
+    {
+      model_url:
+        "https://huggingface.co/mlc-ai/mlc-chat-Mistral-7B-Instruct-v0.1-q4f32_1/resolve/main/",
+      local_id: "Mistral-7B-Instruct-v0.1-q4f32_1",
     },
   ],
   model_lib_map: {
@@ -95,6 +99,8 @@ export const appConfig: AppConfig = {
       "https://raw.githubusercontent.com/mlc-ai/binary-mlc-llm-libs/main/WizardMath-7B-V1.0-q4f16_1-webgpu.wasm",
     "WizardMath-13B-V1.0-q4f16_1":
       "https://raw.githubusercontent.com/mlc-ai/binary-mlc-llm-libs/main/WizardMath-13B-V1.0-q4f16_1-webgpu.wasm",
+    "Mistral-7B-Instruct-v0.1-q4f32_1":
+      "https://raw.githubusercontent.com/mlc-ai/binary-mlc-llm-libs/main/Mistral-7B-Instruct-v0.1-q4f32_1-sw4k_cs1k-webgpu.wasm",
   },
 };
 // override default
