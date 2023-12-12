@@ -100,7 +100,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
       setLog("Init error, " + (err?.toString() ?? ""));
       setChatLoading(false);
     }
-  }, [model, options, system]);
+  }, [model, options]);
 
   const reset = useCallback(async () => {
     setMessages([]);

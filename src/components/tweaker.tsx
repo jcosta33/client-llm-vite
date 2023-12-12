@@ -43,7 +43,7 @@ const Tweaker = () => {
             if (e.target.value === "open-ai") {
               setModel("gpt-3.5-turbo-16k");
             } else {
-              setModel("RedPajama-INCITE-Chat-3B-v1-q4f32_0");
+              setModel("Llama-2-7b-chat-hf-q4f32_1");
             }
             setOptionsUpdated(true);
           }}
