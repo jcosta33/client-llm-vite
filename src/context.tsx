@@ -86,14 +86,21 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
           )
         );
       });
-      await chat.reload(model, undefined, appConfig);
+      await chat.reload(
+        model,
+        {
+          ...chatOpts,
+          ...options,
+        },
+        appConfig
+      );
       setOptionsUpdated(false);
       setChatLoading(false);
     } catch (err: unknown) {
       setLog("Init error, " + (err?.toString() ?? ""));
       setChatLoading(false);
     }
-  }, [model]);
+  }, [model, options, system]);
 
   const reset = useCallback(async () => {
     setMessages([]);
