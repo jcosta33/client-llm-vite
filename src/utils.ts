@@ -5,9 +5,9 @@ export const formatPrompt = (
   source: string
 ) => {
   let prompt = "";
-  if (language !== "") prompt += `\nProgramming language: ${language};\n`;
-  if (context !== "") prompt += ` \nTools: ${context};\n`;
-  if (message !== "") prompt += ` \n Request: ${message}; \n`;
-  if (source !== "") prompt += `\n Code: ${source}\n `;
+  if (language !== "") prompt += `Programming language: ${language};\n`;
+  if (context !== "") prompt += ` Tools: ${context};\n`;
+  if (source !== "") prompt += `Code: ${source}\n `;
+  if (message !== "") prompt += message;
   return prompt;
 };

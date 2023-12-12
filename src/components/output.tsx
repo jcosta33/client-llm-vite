@@ -1,5 +1,3 @@
-
-
 import {
   Box,
   Button,
@@ -70,39 +68,45 @@ const Output = () => {
                 </Typography>
                 <ReactMarkdown
                   components={{
-                    p: ({ node, className, children, ...props }) => {
-                      return (
-                        <Typography
-                          variant="body2"
-                          className={className}
-                          {...props}
-                        >
-                          {children}
-                        </Typography>
-                      );
-                    },
-                    h1: ({ node, className, children, ...props }) => {
-                      return (
-                        <Typography
-                          variant="h1"
-                          className={className}
-                          {...props}
-                        >
-                          {children}
-                        </Typography>
-                      );
-                    },
-                    code({ node, inline, className, children, ...props }) {
-                      // If inline, retain the default behavior
-                      if (inline) {
-                        return (
-                          <code className={className} {...props}>
-                            {children}
-                          </code>
-                        );
-                      }
-
-                      return (
+                    p: ({ className, children }) => (
+                      <Typography variant="body2" className={className}>
+                        {children}
+                      </Typography>
+                    ),
+                    h1: ({ className, children }) => (
+                      <Typography variant="h1" className={className}>
+                        {children}
+                      </Typography>
+                    ),
+                    h2: ({ className, children }) => (
+                      <Typography variant="h2" className={className}>
+                        {children}
+                      </Typography>
+                    ),
+                    h3: ({ className, children }) => (
+                      <Typography variant="h3" className={className}>
+                        {children}
+                      </Typography>
+                    ),
+                    h4: ({ className, children }) => (
+                      <Typography variant="h4" className={className}>
+                        {children}
+                      </Typography>
+                    ),
+                    h5: ({ className, children }) => (
+                      <Typography variant="h5" className={className}>
+                        {children}
+                      </Typography>
+                    ),
+                    h6: ({ className, children }) => (
+                      <Typography variant="h6" className={className}>
+                        {children}
+                      </Typography>
+                    ),
+                    code: ({ inline, children }) =>
+                      inline ? (
+                        <code>{children}</code>
+                      ) : (
                         <Box position="relative">
                           <Highlight>{children}</Highlight>
                           <Button
@@ -120,8 +124,7 @@ const Output = () => {
                             <CopyIcon />
                           </Button>
                         </Box>
-                      );
-                    },
+                      ),
                   }}
                 >
                   {message.value}

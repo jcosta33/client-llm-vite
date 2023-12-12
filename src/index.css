@@ -41,7 +41,8 @@ p {
 }
 
 code {
-  background: #212121;
+  background: #333;
+  padding:4px 0;
   font-size: 12px;
   &:only-child {
     margin: 0;
