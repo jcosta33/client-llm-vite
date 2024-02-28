@@ -1,3 +1,6 @@
+DEMO: https://client-llm-vite.vercel.app/
+Only works on chromium browsers with WebGPU support. Might not work on windows.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
