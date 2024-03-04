@@ -10,6 +10,8 @@ export interface ContextType {
   setOptionsUpdated: Dispatch<SetStateAction<boolean>>;
   log: string;
   setLog: Dispatch<SetStateAction<string>>;
+  progress: string;
+  setProgress: Dispatch<SetStateAction<string>>;
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
   messages: { value: string; model: string }[];

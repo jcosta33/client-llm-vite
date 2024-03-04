@@ -38,6 +38,7 @@ const Output = () => {
         >
           {model}
         </Typography>
+
       </Grid>
       {messages.map((message, index) => {
         return (

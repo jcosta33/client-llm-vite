@@ -4,7 +4,7 @@ import Presets from "./presets";
 import Commands from "./commands";
 
 const Prompt = () => {
-  const { setMessage, message, log } = useContext();
+  const { setMessage, message, progress, log } = useContext();
   return (
     <Box>
       <Presets />
@@ -23,8 +23,17 @@ const Prompt = () => {
         }}
       />
       <Commands />
-      <Alert severity="info" sx={{ mt: 1 }}>
-        <Typography variant="body1">{log || "Ready!"}</Typography>
+
+
+      {log &&
+        (
+          <Alert severity="info" sx={{ mt: 1 }}>
+            <Typography variant="body1">{log}</Typography>
+          </Alert>
+        )
+      }
+      <Alert severity={progress.includes('Finish') ? 'success' : 'info'} sx={{ mt: 1 }}>
+        <Typography variant="body1">{progress || "Ready!"}</Typography>
       </Alert>
     </Box>
   );

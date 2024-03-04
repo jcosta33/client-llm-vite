@@ -43,7 +43,7 @@ function ResponsiveAppBar() {
       }}
     >
       <Toolbar>
-        <AdbIcon sx={{ fontSize:30, mr: 3 }} />
+        <AdbIcon sx={{ fontSize: 30, mr: 3 }} />
 
         <Box gap={1} display={"flex"} sx={{ flexGrow: 1 }}>
           <FormControl variant="outlined" size="small">

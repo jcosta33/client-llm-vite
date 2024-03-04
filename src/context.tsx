@@ -40,6 +40,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // State definitions
   const [system, setSystem] = useState(chatOpts.conv_config.system);
   const [log, setLog] = useState("");
+  const [progress, setProgress] = useState("");
   const [messages, setMessages] = useState<PromptResponse[]>([]);
   const [source, setSource] = useState("web-llm");
   const [message, setMessage] = useState("");
@@ -67,23 +68,22 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
     []
   );
 
-  const stop = useCallback(() => chat.interruptGenerate(), []);
+  const stop = useCallback(() => {
+    chat.interruptGenerate();
+  }, []);
 
   /**
    * Reloads chat configuration and initializes chat.
    */
   const reload = useCallback(async () => {
     setChatLoading(true);
-
+    setLog('');
     try {
       await chat.unload();
       await chat.resetChat();
       chat.setInitProgressCallback((report: InitProgressReport) => {
-        setLog(
-          report.text.replace(
-            "It can take a while when we first visit this page to populate the cache. Later refreshes will become faster.",
-            ""
-          )
+        setProgress(
+          report.text
         );
       });
       await chat.reload(
@@ -97,7 +97,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
       setOptionsUpdated(false);
       setChatLoading(false);
     } catch (err: unknown) {
-      setLog("Init error, " + (err?.toString() ?? ""));
+      setProgress("Init error, " + (err?.toString() ?? ""));
       setChatLoading(false);
     }
   }, [model, options]);
@@ -198,6 +198,8 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
     setOptionsUpdated,
     log,
     setLog,
+    progress,
+    setProgress,
     messages,
     setMessages,
     message,
