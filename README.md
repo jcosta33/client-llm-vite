@@ -1,5 +1,5 @@
 DEMO: https://client-llm-vite.vercel.app/
-Only works on chromium browsers with WebGPU support. Might not work on windows. If an error "Init error, Error: Cannot find WebGPU in the environment", try running chrome with the following command: ```google-chrome --enable-unsafe-webgpu --enable-features=Vulkan,UseSkiaRenderer --enable-dawn-features=allow_unsafe_apis```
+Only works on chromium browsers with WebGPU support. Might not work on windows. If an error "Init error, Error: Cannot find WebGPU in the environment" appears, try running chrome with the following command: ```google-chrome --enable-unsafe-webgpu --enable-features=Vulkan,UseSkiaRenderer --enable-dawn-features=allow_unsafe_apis```
 
 # React + TypeScript + Vite
 
