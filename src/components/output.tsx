@@ -1,3 +1,4 @@
+import CopyIcon from "@mui/icons-material/CopyAll";
 import {
   Box,
   Button,
@@ -6,11 +7,10 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { useContext } from "../hooks";
-import ReactMarkdown from "react-markdown";
-import Highlight from "react-highlight";
-import CopyIcon from "@mui/icons-material/CopyAll";
 import "highlight.js/styles/github-dark.css";
+import Highlight from "react-highlight";
+import ReactMarkdown from "react-markdown";
+import { useContext } from "../hooks";
 
 const Output = () => {
   const { messages, model } = useContext();
@@ -38,7 +38,6 @@ const Output = () => {
         >
           {model}
         </Typography>
-
       </Grid>
       {messages.map((message, index) => {
         return (
@@ -128,7 +127,7 @@ const Output = () => {
                       ),
                   }}
                 >
-                  {message.value}
+                  {message.content}
                 </ReactMarkdown>
               </CardContent>
             </Card>

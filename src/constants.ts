@@ -21,37 +21,30 @@ export const webLLMModels = [
     name: "Llama-2-7b-chat-hf-q4f32_1",
   },
   {
+    label: "Llama 3 8b f32",
+    name: "Llama-3-8B-Instruct-q4f32_1",
+  },
+
+  {
     label: "RedPajama 3B f32",
-    name: "RedPajama-INCITE-Chat-3B-v1-q4f32_0",
+    name: "RedPajama-INCITE-Chat-3B-v1-q4f32_1-1k",
   },
 
   {
     label: "TinyLlama 1.1B f32",
-    name: "TinyLlama-1.1B-Chat-v0.4-q4f32_1",
+    name: "TinyLlama-1.1B-Chat-v0.4-q4f32_1-1k",
   },
-
-  // {
-  //   label: "Mistral 7B f32",
-  //   name: "Mistral-7B-Instruct-v0.2-q4f16_1",
-  // },
+  {
+    label: "Mistral 7B f32",
+    name: "Mistral-7B-Instruct-v0.2-q4f16_1",
+  },
   {
     label: "Phi-2 f32",
-    name: "phi-2-q4f32_1",
+    name: "Phi2-q4f32_1",
   },
   {
     label: "Gemma 2b f32",
     name: "gemma-2b-it-q4f32_1",
-  },
-];
-
-export const openAIModels = [
-  {
-    label: "GPT 3.5 turbo",
-    name: "gpt-3.5-turbo",
-  },
-  {
-    label: "GPT 3.5 turbo 16k",
-    name: "gpt-3.5-turbo-16k",
   },
 ];
 

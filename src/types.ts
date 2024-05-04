@@ -2,7 +2,8 @@ import { ChatOptions } from "@mlc-ai/web-llm";
 import { Dispatch, SetStateAction } from "react";
 
 export interface PromptResponse {
-  value: string;
+  role: "user" | "assistant";
+  content: string;
   model: string;
 }
 
@@ -14,8 +15,8 @@ export interface ContextType {
   setProgress: Dispatch<SetStateAction<string>>;
   message: string;
   setMessage: Dispatch<SetStateAction<string>>;
-  messages: { value: string; model: string }[];
-  setMessages: Dispatch<SetStateAction<{ value: string; model: string }[]>>;
+  messages: PromptResponse[];
+  setMessages: Dispatch<SetStateAction<PromptResponse[]>>;
   context: string;
   setContext: Dispatch<SetStateAction<string>>;
   code: string;

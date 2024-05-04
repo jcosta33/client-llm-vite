@@ -1,18 +1,18 @@
+import ResetIcon from "@mui/icons-material/RestartAlt";
 import {
-  InputLabel,
-  TextField,
-  Button,
   Box,
-  Slider,
-  FormHelperText,
+  Button,
   FormControl,
+  FormHelperText,
+  InputLabel,
   MenuItem,
   Select,
+  Slider,
+  TextField,
   Typography,
 } from "@mui/material";
+import { webLLMModels } from "../constants";
 import { useContext } from "../hooks";
-import ResetIcon from "@mui/icons-material/RestartAlt";
-import { openAIModels, webLLMModels } from "../constants";
 
 const Tweaker = () => {
   const {
@@ -22,7 +22,6 @@ const Tweaker = () => {
     options,
     setSingleOption,
     source,
-    setSource,
     reset,
     setOptionsUpdated,
     system,
@@ -32,28 +31,6 @@ const Tweaker = () => {
   return (
     <Box>
       <Typography variant="h6">Settings</Typography>
-      <br />
-      <FormControl variant="outlined" sx={{ width: "100%" }}>
-        <InputLabel id="runtime-label"> Runtime</InputLabel>
-        <Select
-          labelId="runtime-label"
-          value={source}
-          onChange={(e) => {
-            setSource(e.target.value);
-            if (e.target.value === "open-ai") {
-              setModel("gpt-3.5-turbo-16k");
-            } else {
-              setModel("Llama-2-7b-chat-hf-q4f32_1");
-            }
-            setOptionsUpdated(true);
-          }}
-          label="Runtime"
-        >
-          <MenuItem value="web-llm">WebLLM</MenuItem>
-          <MenuItem value="open-ai">OpenAI</MenuItem>
-        </Select>
-      </FormControl>
-      <br />
       <br />
       <FormControl variant="outlined" sx={{ width: "100%" }}>
         <InputLabel id="llm-model-label"> Model</InputLabel>
@@ -66,13 +43,11 @@ const Tweaker = () => {
           }}
           label="Model"
         >
-          {(source === "open-ai" ? openAIModels : webLLMModels).map(
-            (model, index) => (
-              <MenuItem key={index} value={model.name}>
-                {model.label}
-              </MenuItem>
-            )
-          )}
+          {webLLMModels.map((model, index) => (
+            <MenuItem key={index} value={model.name}>
+              {model.label}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <br />

@@ -1,33 +1,20 @@
 import {
-  ChatModule,
   ChatOptions,
-  ChatWorkerClient,
+  CreateEngine,
+  Engine,
   InitProgressReport,
 } from "@mlc-ai/web-llm";
-import { OpenAI } from "openai";
 import React, {
   ReactNode,
   createContext,
   useCallback,
   useMemo,
+  useRef,
   useState,
 } from "react";
-import { appConfig, chatOpts } from "./configs";
+import { chatOpts } from "./configs";
 import { ContextType, PromptResponse } from "./types";
 import { formatPrompt } from "./utils";
-
-let chat: ChatWorkerClient | ChatModule = new ChatModule();
-
-if (typeof window !== "undefined") {
-  chat = new ChatWorkerClient(
-    new Worker(new URL("./worker.ts", import.meta.url), { type: "module" })
-  );
-}
-
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_PUBLIC_OPEN_AI_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
 
 const Context = createContext<ContextType | undefined>(undefined);
 
@@ -38,7 +25,9 @@ const Context = createContext<ContextType | undefined>(undefined);
  */
 const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // State definitions
-  const [system, setSystem] = useState(chatOpts.conv_config?.system_template || '');
+  const [system, setSystem] = useState(
+    chatOpts.conv_config?.system_template || ""
+  );
   const [log, setLog] = useState("");
   const [progress, setProgress] = useState("");
   const [messages, setMessages] = useState<PromptResponse[]>([]);
@@ -53,6 +42,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [chatLoading, setChatLoading] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const [layout, setLayout] = useState("chat");
+  const chatRef = useRef(null as Engine | null);
 
   // Calculate prompt value based on language, context, message, and code
   const prompt = useMemo(
@@ -69,7 +59,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
   );
 
   const stop = useCallback(() => {
-    chat.interruptGenerate();
+    if (chatRef.current !== null) chatRef.current.interruptGenerate();
   }, []);
 
   /**
@@ -77,110 +67,82 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
    */
   const reload = useCallback(async () => {
     setChatLoading(true);
-    setLog('');
+    setLog("");
     try {
-      await chat.unload();
-      await chat.resetChat();
-      chat.setInitProgressCallback((report: InitProgressReport) => {
-        setProgress(
-          report.text
-        );
-      });
-      await chat.reload(
-        model,
-        {
+      chatRef.current = await CreateEngine(model, {
+        chatOpts: {
           ...chatOpts,
           ...options,
         },
-        appConfig
-      );
-      setOptionsUpdated(false);
-      setChatLoading(false);
+        initProgressCallback: (report: InitProgressReport) => {
+          setProgress(report.text);
+        },
+      });
     } catch (err: unknown) {
       setProgress("Init error, " + (err?.toString() ?? ""));
-      setChatLoading(false);
     }
+    setOptionsUpdated(false);
+    setChatLoading(false);
   }, [model, options]);
 
   const reset = useCallback(async () => {
     setMessages([]);
-    chat.resetChat();
+    if (chatRef.current !== null) chatRef.current.resetChat();
     setOptions(chatOpts);
     setOptionsUpdated(true);
     reload();
   }, [reload]);
 
-  /**
-   * Handles sending messages via OpenAI.
-   */
-  const handleOpenAiMessage = useCallback(async () => {
+  const handleWebLLMMessage = useCallback(async () => {
+    if (optionsUpdated || chatRef.current === null) {
+      await reload();
+    }
+
     const oldMessages = messages;
-    const stream = await openai.chat.completions.create({
-      model: model,
+
+    const asyncChunkGenerator = await chatRef.current?.chat.completions.create({
       messages: [
-        { role: "system", content: system },
+        ...messages.map((msg) => ({
+          role: msg.role,
+          content: msg.content,
+        })),
         { role: "user", content: prompt },
       ],
       stream: true,
-      temperature: options.temperature,
-      top_p: options.top_p,
-      max_tokens: 10000,
-      frequency_penalty: options.repetition_penalty,
+      logprobs: true,
+      top_logprobs: 2,
     });
+
+    if (!asyncChunkGenerator) {
+      return;
+    }
 
     setChatLoading(false);
-    let response = "";
-    for await (const part of stream) {
-      response += part.choices[0]?.delta?.content || "";
-      setMessages([{ value: response, model: model }, ...oldMessages]);
-    }
-  }, [
-    messages,
-    model,
-    system,
-    prompt,
-    options.temperature,
-    options.top_p,
-    options.repetition_penalty,
-  ]);
 
-  const sendWebLLMMessage = useCallback(async () => {
-    const oldMessages = messages;
-    let chatLoadingStopped = false;
-    await chat.generate(prompt, async (_step, response) => {
-      if (!chatLoadingStopped && response !== "") {
-        chatLoadingStopped = true;
-        setChatLoading(false);
+    let message = "";
+
+    for await (const chunk of asyncChunkGenerator) {
+      if (chunk.choices[0].delta.content) {
+        message += chunk.choices[0].delta.content;
       }
-      setMessages([{ value: response, model: model }, ...oldMessages]);
-      setLog(await chat.runtimeStatsText());
-    });
-  }, [messages, prompt, model]);
+      setMessages([
+        { role: "assistant", model: model, content: message },
+        ...oldMessages,
+      ]);
 
-  /**
-   * Sends messages using the WebLLM method.
-   */
-  const handleWebLLMMessage = useCallback(async () => {
-    if (!optionsUpdated) {
-      await sendWebLLMMessage();
-    } else {
-      await reload();
-      await sendWebLLMMessage();
+      // engine.interruptGenerate();  // works with interrupt as well
     }
-  }, [optionsUpdated, sendWebLLMMessage, reload]);
+    setLog((await chatRef.current?.runtimeStatsText()) || "");
+  }, [optionsUpdated, messages, prompt, reload, model]);
 
   /**
    * Determines the source and sends the message accordingly.
    */
   const sendMessage = useCallback(async () => {
     setChatLoading(true);
-    if (source === "open-ai") {
-      await handleOpenAiMessage();
-    } else {
-      await handleWebLLMMessage();
-    }
+    await handleWebLLMMessage();
     setChatLoading(false);
-  }, [source, handleOpenAiMessage, handleWebLLMMessage]);
+  }, [handleWebLLMMessage]);
 
   const sendCommand = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -234,4 +196,3 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 export { Context, Provider };
-
