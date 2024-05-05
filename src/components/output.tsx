@@ -57,12 +57,18 @@ const Output = () => {
               <Card
                 variant="outlined"
                 sx={{
-                  background: "#0b0b0b",
+                  background: "#000",
                   fontSize: 10,
                   display: "inline-block",
                 }}
               >
-                <CardContent sx={{ position: "relative", paddingTop: 4 }}>
+                <CardContent
+                  sx={{
+                    position: "relative",
+                    paddingTop: 4,
+                    paddingBottom: "16px!important",
+                  }}
+                >
                   <Typography
                     sx={{
                       color: "#999",
@@ -71,10 +77,15 @@ const Output = () => {
                       borderBottom: "1px solid #444",
                       right: 0,
                       left: 0,
-                      textAlign: "center",
+                      textAlign: "left",
+                      paddingLeft: "16px",
+                      paddingRight: "16px",
                       fontSize: 12,
                       opacity: 0.4,
                       textTransform: "uppercase",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
                     }}
                   >
                     {message.model}

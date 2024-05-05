@@ -26,7 +26,7 @@ const Context = createContext<ContextType | undefined>(undefined);
 const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // State definitions
   const [system, setSystem] = useState(
-    chatOpts.conv_config?.system_template || ""
+    "You are a helpful assistant. You are here to help the user with their queries. You can provide information, answer questions, and provide step-by-step instructions. Output in markdown format so that the responses are formatted correctly."
   );
   const [log, setLog] = useState("");
   const [progress, setProgress] = useState("");
