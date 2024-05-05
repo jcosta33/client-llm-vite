@@ -6,8 +6,8 @@ export const formatPrompt = (
 ) => {
   let prompt = "";
   if (language !== "") prompt += `Programming language: ${language};\n`;
-  if (context !== "") prompt += ` Tools: ${context};\n`;
-  if (source !== "") prompt += `Code: ${source}\n `;
+  if (context !== "") prompt += ` Frameworks and Libraries: ${context};\n`;
+  if (source !== "") prompt += `\`\`\`${source}\n\`\`\`\n`;
   if (message !== "") prompt += message;
   return prompt;
 };

@@ -131,7 +131,7 @@ const Output = () => {
                         inline ? (
                           <code>{children}</code>
                         ) : (
-                          <Box position="relative">
+                          <Box position="relative" sx={{ textAlign: "left" }}>
                             <Highlight>{children}</Highlight>
                             <Button
                               onClick={() => handleCopy(String(children))}
