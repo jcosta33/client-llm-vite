@@ -1,8 +1,8 @@
 import {
   ChatOptions,
-  CreateEngine,
-  Engine,
+  CreateWebWorkerEngine,
   InitProgressReport,
+  WebWorkerEngine,
 } from "@mlc-ai/web-llm";
 import React, {
   ReactNode,
@@ -42,7 +42,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [chatLoading, setChatLoading] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const [layout, setLayout] = useState("chat");
-  const chatRef = useRef(null as Engine | null);
+  const chatRef = useRef(null as WebWorkerEngine | null);
 
   // Calculate prompt value based on language, context, message, and code
   const prompt = useMemo(
@@ -69,39 +69,41 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
     setChatLoading(true);
     setLog("");
     try {
-      chatRef.current = await CreateEngine(model, {
-        chatOpts: {
-          ...chatOpts,
-          ...options,
-        },
-        initProgressCallback: (report: InitProgressReport) => {
-          setProgress(report.text);
-        },
-      });
+      chatRef.current = await CreateWebWorkerEngine(
+        new Worker(new URL("./worker.ts", import.meta.url), { type: "module" }),
+        model,
+        {
+          initProgressCallback: (report: InitProgressReport) => {
+            setProgress(report.text);
+          },
+        }
+      );
     } catch (err: unknown) {
       setProgress("Init error, " + (err?.toString() ?? ""));
     }
     setOptionsUpdated(false);
     setChatLoading(false);
-  }, [model, options]);
+  }, [model]);
 
   const reset = useCallback(async () => {
     setMessages([]);
-    if (chatRef.current !== null) chatRef.current.resetChat();
+    if (chatRef.current !== null) {
+      chatRef.current.resetChat();
+    }
     setOptions(chatOpts);
-    setOptionsUpdated(true);
-    reload();
-  }, [reload]);
+  }, []);
 
   const handleWebLLMMessage = useCallback(async () => {
     if (optionsUpdated || chatRef.current === null) {
       await reload();
     }
 
-    const oldMessages = messages;
-
     const asyncChunkGenerator = await chatRef.current?.chat.completions.create({
       messages: [
+        {
+          role: "system",
+          content: system,
+        },
         ...messages.map((msg) => ({
           role: msg.role,
           content: msg.content,
@@ -109,40 +111,58 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
         { role: "user", content: prompt },
       ],
       stream: true,
-      logprobs: true,
-      top_logprobs: 2,
+      ...options,
     });
 
-    if (!asyncChunkGenerator) {
-      return;
-    }
-
-    setChatLoading(false);
+    if (!asyncChunkGenerator) return;
 
     let message = "";
-
+    let messagePushed = false;
     for await (const chunk of asyncChunkGenerator) {
       if (chunk.choices[0].delta.content) {
+        if (chatLoading) {
+          setChatLoading(false);
+        }
         message += chunk.choices[0].delta.content;
+        if (messagePushed) {
+          setMessages((prev) =>
+            prev.map((msg, index) =>
+              index === 0
+                ? { content: message, model: model, role: "assistant" }
+                : msg
+            )
+          );
+        } else {
+          setMessages((prev) => [
+            { content: message, model: model, role: "assistant" },
+            ...prev,
+          ]);
+          messagePushed = true;
+        }
       }
-      setMessages([
-        { role: "assistant", model: model, content: message },
-        ...oldMessages,
-      ]);
-
-      // engine.interruptGenerate();  // works with interrupt as well
     }
     setLog((await chatRef.current?.runtimeStatsText()) || "");
-  }, [optionsUpdated, messages, prompt, reload, model]);
+  }, [
+    optionsUpdated,
+    system,
+    messages,
+    prompt,
+    options,
+    reload,
+    chatLoading,
+    model,
+  ]);
 
   /**
    * Determines the source and sends the message accordingly.
    */
   const sendMessage = useCallback(async () => {
     setChatLoading(true);
+    setMessages([{ role: "user", content: prompt, model: "you" }, ...messages]);
+    setMessage("");
     await handleWebLLMMessage();
     setChatLoading(false);
-  }, [handleWebLLMMessage]);
+  }, [handleWebLLMMessage, messages, prompt]);
 
   const sendCommand = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -21,7 +21,6 @@ const Tweaker = () => {
     chatLoading,
     options,
     setSingleOption,
-    source,
     reset,
     setOptionsUpdated,
     system,
@@ -58,7 +57,6 @@ const Tweaker = () => {
         value={system}
         onChange={(e) => {
           setSystem(e.target.value);
-          setOptionsUpdated(true);
         }}
         fullWidth
         label="System context"
@@ -72,11 +70,10 @@ const Tweaker = () => {
         value={options.repetition_penalty}
         onChange={(_e, newValue) => {
           setSingleOption("repetition_penalty", newValue as number);
-          setOptionsUpdated(true);
         }}
         min={0.5}
         max={2.0}
-        step={0.01}
+        step={0.1}
       />
       <FormHelperText sx={{ mt: -1, fontSize: 10 }}>
         Penalizes repeated content. 1 is neutral, {">"}1 reduces, and {"<"}1
@@ -89,11 +86,10 @@ const Tweaker = () => {
         value={options.top_p}
         onChange={(_e, newValue) => {
           setSingleOption("top_p", newValue as number);
-          setOptionsUpdated(true);
         }}
-        min={0}
-        max={1}
-        step={0.01}
+        min={0.1}
+        max={0.8}
+        step={0.1}
       />
       <FormHelperText sx={{ mt: -1, fontSize: 10 }}>
         Controls output diversity. Closer to 0 for deterministic outputs.
@@ -106,36 +102,83 @@ const Tweaker = () => {
         value={options.temperature}
         onChange={(_e, newValue) => {
           setSingleOption("temperature", newValue as number);
-          setOptionsUpdated(true);
         }}
         min={0}
         max={2}
-        step={0.01}
+        step={0.1}
       />
       <FormHelperText sx={{ mt: -1, fontSize: 10 }}>
         Controls randomness. 0 for deterministic outputs, higher for more
         randomness.
       </FormHelperText>
       <br />
-      {source === "web-llm" && (
-        <>
-          <InputLabel>Average output length</InputLabel>
-          <Slider
-            size="small"
-            value={options.mean_gen_len}
-            onChange={(_e, newValue) => {
-              setSingleOption("mean_gen_len", newValue as number);
-              setOptionsUpdated(true);
-            }}
-            min={100}
-            max={1500}
-            step={1}
-          />
-          <FormHelperText sx={{ mt: -1, fontSize: 10 }}>
-            Desired average length of the generated output.
-          </FormHelperText>
-        </>
-      )}
+      <InputLabel>Presence penalty</InputLabel>
+      <Slider
+        size="small"
+        value={options.presence_penalty}
+        onChange={(_e, newValue) => {
+          setSingleOption("presence_penalty", newValue as number);
+        }}
+        min={-2}
+        max={2}
+        step={0.1}
+      />
+      <FormHelperText sx={{ mt: -1, fontSize: 10 }}>
+        Number between -2.0 and 2.0. Positive values penalize new tokens based
+        on whether they appear in the text so far, increasing the model's
+        likelihood to talk about new topics.
+      </FormHelperText>
+      <br />
+      <InputLabel>Frequency penalty</InputLabel>
+      <Slider
+        size="small"
+        value={options.frequency_penalty}
+        onChange={(_e, newValue) => {
+          setSingleOption("frequency_penalty", newValue as number);
+        }}
+        min={-2}
+        max={2}
+        step={0.1}
+      />
+      <FormHelperText sx={{ mt: -1, fontSize: 10 }}>
+        Number between -2.0 and 2.0. Positive values penalize new tokens based
+        on their existing frequency in the text so far, decreasing the model's
+        likelihood to repeat the same line verbatim.
+      </FormHelperText>
+      <br />
+
+      <InputLabel>Average output length</InputLabel>
+      <Slider
+        size="small"
+        value={options.mean_gen_len}
+        onChange={(_e, newValue) => {
+          setSingleOption("mean_gen_len", newValue as number);
+        }}
+        min={100}
+        max={1500}
+        step={1}
+      />
+      <FormHelperText sx={{ mt: -1, fontSize: 10 }}>
+        Desired average length of the generated output.
+      </FormHelperText>
+      <br />
+
+      <InputLabel>Max output length</InputLabel>
+      <Slider
+        size="small"
+        value={options.max_gen_len}
+        onChange={(_e, newValue) => {
+          setSingleOption("max_gen_len", newValue as number);
+        }}
+        min={100}
+        max={10000}
+        step={1}
+      />
+
+      <FormHelperText sx={{ mt: -1, fontSize: 10 }}>
+        Desired max length of the generated output.
+      </FormHelperText>
+
       {/* {source === "web-llm" && (
         <>
           <InputLabel>Shift fill factor</InputLabel>

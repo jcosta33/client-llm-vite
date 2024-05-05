@@ -2,9 +2,9 @@ import { ChatOptions } from "@mlc-ai/web-llm";
 import { Dispatch, SetStateAction } from "react";
 
 export interface PromptResponse {
-  role: "user" | "assistant";
+  role: "user" | "assistant" | "system";
   content: string;
-  model: string;
+  model?: string;
 }
 
 export interface ContextType {
