@@ -1,6 +1,6 @@
 import {
-  ChatOptions,
   CreateMLCEngine,
+  GenerationConfig,
   InitProgressReport,
   MLCEngine,
 } from "@mlc-ai/web-llm";
@@ -37,7 +37,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [context, setContext] = useState("");
   const [language, setLanguage] = useState("");
   const [model, setModel] = useState("Llama-3.2-1B-Instruct-q4f16_1-MLC");
-  const [options, setOptions] = useState<ChatOptions>(chatOpts);
+  const [options, setOptions] = useState<GenerationConfig>(chatOpts);
   const [optionsUpdated, setOptionsUpdated] = useState(true);
   const [chatLoading, setChatLoading] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
@@ -52,7 +52,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   // Callbacks & Handlers
   const setSingleOption = useCallback(
-    (key: keyof ChatOptions, value: string | number) => {
+    (key: keyof GenerationConfig, value: string | number) => {
       setOptions((prev) => ({ ...prev, [key]: value }));
     },
     []
@@ -97,6 +97,10 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
       await reload();
     }
 
+    const requestOptions = Object.fromEntries(
+      Object.entries(options).filter(([, value]) => value !== null && value !== undefined)
+    );
+
     const asyncChunkGenerator = await chatRef.current?.chat.completions.create({
       messages: [
         {
@@ -110,7 +114,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
         { role: "user", content: prompt },
       ],
       stream: true,
-      ...options,
+      ...requestOptions,
     });
 
     if (!asyncChunkGenerator) return;

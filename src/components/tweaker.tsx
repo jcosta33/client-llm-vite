@@ -147,28 +147,12 @@ const Tweaker = () => {
       </FormHelperText>
       <br />
 
-      <InputLabel>Average output length</InputLabel>
-      <Slider
-        size="small"
-        value={options.mean_gen_len}
-        onChange={(_e, newValue) => {
-          setSingleOption("mean_gen_len", newValue as number);
-        }}
-        min={100}
-        max={1500}
-        step={1}
-      />
-      <FormHelperText sx={{ mt: -1, fontSize: 10 }}>
-        Desired average length of the generated output.
-      </FormHelperText>
-      <br />
-
       <InputLabel>Max output length</InputLabel>
       <Slider
         size="small"
-        value={options.max_gen_len}
+        value={options.max_tokens ?? 5000}
         onChange={(_e, newValue) => {
-          setSingleOption("max_gen_len", newValue as number);
+          setSingleOption("max_tokens", newValue as number);
         }}
         min={100}
         max={10000}

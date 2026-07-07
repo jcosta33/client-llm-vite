@@ -1,4 +1,4 @@
-import { ChatOptions } from "@mlc-ai/web-llm";
+import { GenerationConfig } from "@mlc-ai/web-llm";
 import { Dispatch, SetStateAction } from "react";
 
 export interface PromptResponse {
@@ -31,8 +31,8 @@ export interface ContextType {
   language: string;
   setSource: Dispatch<SetStateAction<string>>;
   source: string;
-  options: ChatOptions;
-  setSingleOption: (key: keyof ChatOptions, value: string | number) => void;
+  options: GenerationConfig;
+  setSingleOption: (key: keyof GenerationConfig, value: string | number) => void;
   layout: string;
   setLayout: Dispatch<SetStateAction<string>>;
   fullscreen: boolean;
