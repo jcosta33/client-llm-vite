@@ -1,8 +1,8 @@
 import {
   ChatOptions,
-  CreateWebWorkerEngine,
+  CreateMLCEngine,
   InitProgressReport,
-  WebWorkerEngine,
+  MLCEngine,
 } from "@mlc-ai/web-llm";
 import React, {
   ReactNode,
@@ -36,13 +36,13 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [code, setCode] = useState("");
   const [context, setContext] = useState("");
   const [language, setLanguage] = useState("");
-  const [model, setModel] = useState("Llama-2-7b-chat-hf-q4f32_1");
+  const [model, setModel] = useState("Llama-3.2-1B-Instruct-q4f16_1-MLC");
   const [options, setOptions] = useState<ChatOptions>(chatOpts);
   const [optionsUpdated, setOptionsUpdated] = useState(true);
   const [chatLoading, setChatLoading] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const [layout, setLayout] = useState("chat");
-  const chatRef = useRef(null as WebWorkerEngine | null);
+  const chatRef = useRef(null as MLCEngine | null);
 
   // Calculate prompt value based on language, context, message, and code
   const prompt = useMemo(
@@ -69,8 +69,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
     setChatLoading(true);
     setLog("");
     try {
-      chatRef.current = await CreateWebWorkerEngine(
-        new Worker(new URL("./worker.ts", import.meta.url), { type: "module" }),
+      chatRef.current = await CreateMLCEngine(
         model,
         {
           initProgressCallback: (report: InitProgressReport) => {

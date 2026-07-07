@@ -17,34 +17,48 @@ export const programmingLanguages = [
 
 export const webLLMModels = [
   {
-    label: "Llama 2 7b f32",
-    name: "Llama-2-7b-chat-hf-q4f32_1",
+    label: "Llama 3.2 1B Instruct",
+    name: "Llama-3.2-1B-Instruct-q4f32_1-MLC",
   },
   {
-    label: "Llama 3 8b f32",
-    name: "Llama-3-8B-Instruct-q4f32_1",
-  },
-
-  {
-    label: "RedPajama 3B f32",
-    name: "RedPajama-INCITE-Chat-3B-v1-q4f32_1-1k",
-  },
-
-  {
-    label: "TinyLlama 1.1B f32",
-    name: "TinyLlama-1.1B-Chat-v0.4-q4f32_1-1k",
+    label: "Llama 3.2 3B Instruct",
+    name: "Llama-3.2-3B-Instruct-q4f32_1-MLC",
   },
   {
-    label: "Mistral 7B f32",
-    name: "Mistral-7B-Instruct-v0.2-q4f16_1",
+    label: "Llama 3.1 8B Instruct",
+    name: "Llama-3.1-8B-Instruct-q4f32_1-MLC",
   },
   {
-    label: "Phi-2 f32",
-    name: "Phi2-q4f32_1",
+    label: "Phi-3.5 Mini Instruct",
+    name: "Phi-3.5-mini-instruct-q4f32_1-MLC",
   },
   {
-    label: "Gemma 2b f32",
-    name: "gemma-2b-it-q4f32_1",
+    label: "Mistral 7B Instruct v0.3",
+    name: "Mistral-7B-Instruct-v0.3-q4f32_1-MLC",
+  },
+  {
+    label: "Qwen2.5 3B Instruct",
+    name: "Qwen2.5-3B-Instruct-q4f32_1-MLC",
+  },
+  {
+    label: "Qwen2.5 7B Instruct",
+    name: "Qwen2.5-7B-Instruct-q4f32_1-MLC",
+  },
+  {
+    label: "SmolLM2 1.7B Instruct",
+    name: "SmolLM2-1.7B-Instruct-q4f32_1-MLC",
+  },
+  {
+    label: "Gemma 2 2B IT",
+    name: "gemma-2-2b-it-q4f32_1-MLC",
+  },
+  {
+    label: "RedPajama 3B Chat",
+    name: "RedPajama-INCITE-Chat-3B-v1-q4f32_1-MLC",
+  },
+  {
+    label: "TinyLlama 1.1B Chat v1.0",
+    name: "TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC",
   },
 ];
 
