@@ -41,7 +41,7 @@ const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [optionsUpdated, setOptionsUpdated] = useState(true);
   const [chatLoading, setChatLoading] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
-  const [layout, setLayout] = useState("chat");
+  const [layout, setLayout] = useState("code");
   const chatRef = useRef(null as MLCEngine | null);
 
   // Calculate prompt value based on language, context, message, and code
