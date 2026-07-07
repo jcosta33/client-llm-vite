@@ -67,7 +67,7 @@ const Tweaker = () => {
       <InputLabel>Repetition deterrence</InputLabel>
       <Slider
         size="small"
-        value={options.repetition_penalty}
+        value={options.repetition_penalty ?? 1.2}
         onChange={(_e, newValue) => {
           setSingleOption("repetition_penalty", newValue as number);
         }}
@@ -83,7 +83,7 @@ const Tweaker = () => {
       <InputLabel>Output diversity</InputLabel>
       <Slider
         size="small"
-        value={options.top_p}
+        value={options.top_p ?? 0.2}
         onChange={(_e, newValue) => {
           setSingleOption("top_p", newValue as number);
         }}
@@ -99,7 +99,7 @@ const Tweaker = () => {
       <InputLabel>Randomness level</InputLabel>
       <Slider
         size="small"
-        value={options.temperature}
+        value={options.temperature ?? 0.5}
         onChange={(_e, newValue) => {
           setSingleOption("temperature", newValue as number);
         }}
@@ -115,7 +115,7 @@ const Tweaker = () => {
       <InputLabel>Presence penalty</InputLabel>
       <Slider
         size="small"
-        value={options.presence_penalty}
+        value={options.presence_penalty ?? 0.0}
         onChange={(_e, newValue) => {
           setSingleOption("presence_penalty", newValue as number);
         }}
@@ -132,7 +132,7 @@ const Tweaker = () => {
       <InputLabel>Frequency penalty</InputLabel>
       <Slider
         size="small"
-        value={options.frequency_penalty}
+        value={options.frequency_penalty ?? 0.0}
         onChange={(_e, newValue) => {
           setSingleOption("frequency_penalty", newValue as number);
         }}
